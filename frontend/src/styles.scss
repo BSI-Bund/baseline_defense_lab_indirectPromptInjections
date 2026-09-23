@@ -1,0 +1,157 @@
+// SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+// SPDX-License-Identifier: EUPL-1.2
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// ---------------------------------------------------------------------------
+// Project palette: a calm navy primary on a quiet grey-on-white
+// surface. Light theme on purpose - "ruhige Behoerden-Aesthetik".
+//
+// NOTE: We deliberately do NOT @import or bundle any remote/proprietary fonts.
+// The build must work offline, so only the fallback stacks are used.
+// ---------------------------------------------------------------------------
+
+$bdl-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 800, 600, 900);
+$bdl-accent: mat.m2-define-palette(mat.$m2-indigo-palette, 700, 400, 900);
+$bdl-warn: mat.m2-define-palette(mat.$m2-red-palette, 700);
+
+$bdl-typography: mat.m2-define-typography-config(
+  $font-family:
+    '"Source Sans 3", "Fira Sans", -apple-system, "Segoe UI", Roboto, sans-serif',
+);
+
+$bdl-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $bdl-primary,
+      accent: $bdl-accent,
+      warn: $bdl-warn,
+    ),
+    typography: $bdl-typography,
+    density: -1,
+  )
+);
+
+@include mat.all-component-themes($bdl-theme);
+
+// ---------------------------------------------------------------------------
+// Design tokens - exposed as CSS custom properties so component SCSS files
+// can pick them up without re-importing the Sass theme machinery.
+// ---------------------------------------------------------------------------
+:root {
+  // Base palette
+  --bdl-blue: #15334d;
+  --bdl-blue-strong: #0b4f6c;
+  --bdl-surface: #ffffff;
+  --bdl-surface-muted: #f4f4f4;
+  --bdl-text: #1a1a1a;
+  --bdl-text-muted: #4a4a4a;
+
+
+  // Derived working tokens
+  --bdl-border: #d9d9d9;
+  --bdl-border-soft: #e7e7e7;
+  --bdl-link: #0b4f6c;
+  --bdl-danger: #b00020;
+  --bdl-warn-bg: #fff6dd;
+  --bdl-warn-border: #e6c200;
+  --bdl-ok: #2e7d32;
+
+  // Typography stacks
+  --bdl-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --bdl-sans: 'Source Sans 3', 'Fira Sans', -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+  --bdl-mono: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bdl-surface-muted);
+  color: var(--bdl-text);
+  font-family: var(--bdl-sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--bdl-serif);
+  color: var(--bdl-blue);
+  font-weight: 600;
+}
+
+.boot-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--bdl-sans);
+  color: var(--bdl-text-muted);
+  font-size: 0.95rem;
+}
+
+// ---------------------------------------------------------------------------
+// Shared card styling. Components mark their root <mat-card> with ``.bdl-card``.
+// Quiet, flat, grey-bordered - calm authority, no glow.
+// ---------------------------------------------------------------------------
+.bdl-card.mat-mdc-card {
+  background: var(--bdl-surface) !important;
+  color: var(--bdl-text) !important;
+  border: 1px solid var(--bdl-border);
+  border-radius: 4px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+  padding: 1.25rem 1.35rem 1.35rem !important;
+}
+
+.bdl-card.mat-mdc-card .mat-mdc-card-content {
+  padding: 0 !important;
+}
+
+// Form-field tweaks for the light surface.
+.mat-mdc-form-field {
+  font-family: var(--bdl-sans);
+}
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+.mat-mdc-form-field textarea.mat-mdc-input-element {
+  resize: vertical;
+}
+
+// Snackbar - colour the error variant.
+.snack-error .mdc-snackbar__surface {
+  background: var(--bdl-danger) !important;
+  color: #fff !important;
+}
+.snack-error .mat-mdc-snack-bar-label {
+  color: #fff !important;
+}
+.snack-error .mat-mdc-button {
+  color: #fff !important;
+}
+
+// Scrollbar polish.
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(21, 51, 77, 0.25);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 51, 77, 0.4);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}

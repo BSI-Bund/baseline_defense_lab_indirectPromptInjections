@@ -1,0 +1,188 @@
+// SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+// SPDX-License-Identifier: EUPL-1.2
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--bdl-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bdl-blue);
+  margin-bottom: 1rem;
+
+  bdl-icon {
+    color: var(--bdl-blue-strong);
+  }
+
+  .counter {
+    margin-left: auto;
+    font-family: var(--bdl-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--bdl-text-muted);
+    background: var(--bdl-surface-muted);
+    border: 1px solid var(--bdl-border-soft);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hint {
+  margin: 0 0 0.85rem;
+  color: var(--bdl-text-muted);
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+
+// ---- engine toggle --------------------------------------------------------
+.engine-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.9rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 4px;
+  background: var(--bdl-surface-muted);
+  border: 1px solid var(--bdl-border-soft);
+
+  .engine-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--bdl-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+
+    bdl-icon {
+      color: var(--bdl-blue-strong);
+    }
+  }
+
+  .engine-group {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  ::ng-deep .mat-button-toggle {
+    background: var(--bdl-surface);
+  }
+  ::ng-deep .mat-button-toggle-checked {
+    background: var(--bdl-blue) !important;
+    color: #fff !important;
+  }
+  ::ng-deep .mat-button-toggle-label-content {
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 36px !important;
+  }
+}
+
+// ---- tool list ------------------------------------------------------------
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tool-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.6rem 0.65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 120ms ease, border-color 120ms ease;
+
+  &:hover {
+    background: var(--bdl-surface-muted);
+    border-color: var(--bdl-border-soft);
+  }
+
+  mat-slide-toggle {
+    margin-top: 1px;
+  }
+}
+
+.tool-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.tool-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bdl-text);
+}
+
+.tool-stage {
+  font-family: var(--bdl-mono);
+  font-size: 0.72rem;
+  color: var(--bdl-text-muted);
+}
+
+.empty {
+  color: var(--bdl-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+// ---- footgun warning ------------------------------------------------------
+.footgun {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.9rem 0 0.2rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 4px;
+  background: var(--bdl-warn-bg);
+  border: 1px solid var(--bdl-warn-border);
+  border-left: 4px solid var(--bdl-warn-border);
+  color: #6b5300;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+
+  bdl-icon {
+    color: #8a6d00;
+    flex: 0 0 auto;
+    margin-top: 1px;
+  }
+}
+
+.reasoning-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.7rem 0 0.2rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 4px;
+  background: var(--bdl-surface-muted);
+  border: 1px solid var(--bdl-border-soft);
+  border-left: 4px solid var(--bdl-blue-strong);
+  color: var(--bdl-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+
+  bdl-icon {
+    color: var(--bdl-blue-strong);
+    flex: 0 0 auto;
+    margin-top: 1px;
+  }
+}

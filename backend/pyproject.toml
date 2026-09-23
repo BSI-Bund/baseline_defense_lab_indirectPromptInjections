@@ -1,0 +1,94 @@
+# SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+# SPDX-License-Identifier: EUPL-1.2
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "baseline-defense-lab"
+version = "0.1.0"
+description = "Open-source teaching/testing lab for LLM baseline defenses against indirect prompt injection in document chat."
+readme = "README.md"
+license = "EUPL-1.2"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Bundesamt für Sicherheit in der Informationstechnik (BSI)" },
+]
+requires-python = ">=3.11"
+keywords = [
+    "llm-security",
+    "prompt-injection",
+    "indirect-prompt-injection",
+    "defense-evaluation",
+    "baseline-defenses",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Security",
+]
+dependencies = [
+    # pypdf >=6.10.2 closes several PDF-parsing DoS vulnerabilities that are
+    # directly relevant to a service that parses attacker-supplied PDFs
+    # (XMP XML-entity expansion / FlateDecode predictor allocation DoS).
+    # The floor is a hard requirement, not a nicety.
+    "pypdf>=6.10.2",
+    "requests>=2.31",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.30",
+    "langchain>=1.3,<2",
+    "langchain-core>=1.4,<2",
+    "langchain-ollama>=1.1,<2",
+    "langgraph>=1.2,<2",
+]
+server = [
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.30",
+]
+# Second pipeline path: the same defenses composed via the official
+# ``langchain.agents.middleware`` API and ``create_agent``. Optional because
+# the direct path (toolbox/*, /api/chat) has no LangChain dependency and
+# stays a 3-dependency core install. The langchain-core floor is
+# security-relevant (clears the late-2025 langchain-core advisories).
+langchain = [
+    "langchain>=1.3,<2",
+    "langchain-core>=1.4,<2",
+    "langchain-ollama>=1.1,<2",
+    # Direct import (langchain_defenses/_assembly_middleware.py uses
+    # langgraph.graph.message.REMOVE_ALL_MESSAGES), so it is declared
+    # explicitly instead of being relied on transitively.
+    "langgraph>=1.2,<2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/baseline_defense_lab"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF", "SIM"]
+ignore = [
+    "E501",   # line length is enforced loosely; long literals (prompts) are fine
+    # Ambiguous-Unicode rules are false positives in a Unicode-hardening codebase:
+    # the confusables map and exotic-whitespace ranges intentionally contain
+    # Cyrillic / Greek / exotic-space codepoints, and docstrings/comments quote
+    # attacker characters as examples.
+    "RUF001", # ambiguous unicode character in string
+    "RUF002", # ambiguous unicode character in docstring
+    "RUF003", # ambiguous unicode character in comment
+    "SIM108", # explicit if/else kept for readability over ternaries
+]

@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Keep the Docker build context small. Only the files referenced by the
+# Dockerfiles under docker/ need to ship to the daemon.
+
+# VCS
+.git/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local Python / node caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+
+# Pre-built Angular artefacts (re-built inside the image)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Local exploration / output directories that should never end up in the image
+artifacts/
+_ptmp/
+
+# Local env overrides
+.env
+.env.local

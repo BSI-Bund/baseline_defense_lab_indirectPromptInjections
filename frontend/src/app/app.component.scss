@@ -1,0 +1,151 @@
+// SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+// SPDX-License-Identifier: EUPL-1.2
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--bdl-surface-muted);
+}
+
+$content-max: 1320px;
+
+// ---- Header band ----------------------------------------------------------
+.header-band {
+  background: var(--bdl-surface);
+  border-bottom: 1px solid var(--bdl-border);
+}
+.header-inner {
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.header-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+// ---- 5. Hero banner -------------------------------------------------------
+.hero {
+  background: var(--bdl-blue);
+  color: #ffffff;
+}
+.hero-inner {
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: 2.25rem 1.5rem;
+}
+.hero-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 4px solid var(--bdl-warn-border);
+  border-radius: 4px;
+  padding: 1.5rem 1.75rem;
+  max-width: 880px;
+
+  h1 {
+    margin: 0 0 0.5rem;
+    color: #ffffff;
+    font-size: 1.7rem;
+    line-height: 1.25;
+  }
+  p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.02rem;
+    line-height: 1.5;
+  }
+}
+
+// ---- 6. Content layout ----------------------------------------------------
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+  gap: 1.75rem;
+  padding: 1.75rem 1.5rem;
+  max-width: $content-max;
+  margin: 0 auto;
+}
+.layout-sidebar {
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding-right: 0.3rem;
+}
+.layout-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+// ---- footer ---------------------------------------------------------------
+.app-footer {
+  background: var(--bdl-blue);
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 1rem;
+}
+.footer-inner {
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.1rem;
+  font-size: 0.82rem;
+
+  strong {
+    color: #ffffff;
+  }
+}
+
+// The disclaimer. Sits in the footer rather than above the tool area: it is
+// standing legal context, not a per-run warning, and must not compete with
+// the egress-guard alerts for attention. Always fully visible - text that
+// has to be unfolded is text nobody reads. Content from ../disclaimer.ts.
+.footer-disclaimer {
+  max-width: 95ch;
+  line-height: 1.55;
+
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin: 0 0 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.footer-meta {
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  width: 100%;
+}
+
+// ---- responsive -----------------------------------------------------------
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .layout-sidebar {
+    position: static;
+    max-height: none;
+  }
+  .header-right {
+    margin-left: 0;
+    align-items: flex-start;
+  }
+}

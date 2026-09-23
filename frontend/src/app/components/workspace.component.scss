@@ -1,0 +1,137 @@
+// SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+// SPDX-License-Identifier: EUPL-1.2
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--bdl-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bdl-blue);
+  margin-bottom: 0.5rem;
+
+  bdl-icon {
+    color: var(--bdl-blue-strong);
+  }
+}
+
+.card-hint {
+  margin: 0 0 1rem;
+  color: var(--bdl-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+
+  strong {
+    color: var(--bdl-danger);
+  }
+}
+
+.status-chip {
+  margin-left: auto;
+  font-family: var(--bdl-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bdl-text-muted);
+  background: var(--bdl-surface-muted);
+  border: 1px solid var(--bdl-border-soft);
+  border-radius: 999px;
+  padding: 0.12rem 0.6rem;
+
+  &.has-doc {
+    color: var(--bdl-blue);
+    border-color: rgba(21, 51, 77, 0.4);
+    background: rgba(21, 51, 77, 0.06);
+  }
+}
+
+.upload-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+
+  .action {
+    border-radius: 4px !important;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  button[mat-stroked-button].action {
+    border-color: var(--bdl-blue) !important;
+    color: var(--bdl-blue) !important;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+textarea {
+  font-family: var(--bdl-mono);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.run-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.run-btn {
+  min-width: 220px;
+  height: 44px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 4px !important;
+  background: var(--bdl-blue) !important;
+  color: #fff !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:disabled {
+    opacity: 0.55;
+  }
+
+  bdl-icon {
+    color: #fff;
+  }
+}
+
+.run-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--bdl-mono);
+  color: var(--bdl-text-muted);
+  font-size: 0.84rem;
+}
+
+.blocked-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.3rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(176, 0, 32, 0.1);
+  color: var(--bdl-danger);
+  font-family: var(--bdl-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+mat-progress-bar {
+  margin-top: 0.9rem;
+}

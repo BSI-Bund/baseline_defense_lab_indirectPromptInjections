@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+# SPDX-License-Identifier: EUPL-1.2
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Node / Angular
+node_modules/
+frontend/dist/
+.angular/
+.nx/
+*.log
+
+# Environment / secrets (never commit real secrets)
+.env
+.env.local
+
+# Local scratch
+/tmp/
+
+# Skill-Ausgabe: Audit-Reports entstehen bei jedem Lauf neu und beschreiben das
+# lokal gescannte Projekt - sie sind Ergebnis, nicht Quelle, und gehoeren nicht
+# ins Repository (das Verzeichnis selbst bleibt via .gitkeep erhalten).
+ipi-basisschutz-audit/reports/*
+!ipi-basisschutz-audit/reports/.gitkeep
+
+# OS / editor / local tooling. Listed here rather than relying on a machine's
+# global excludes, so the protection travels with the repository.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.claude/
+*.swp
+*.tmp

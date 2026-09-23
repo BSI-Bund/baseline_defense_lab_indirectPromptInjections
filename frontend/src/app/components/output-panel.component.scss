@@ -1,0 +1,162 @@
+// SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+// SPDX-License-Identifier: EUPL-1.2
+.output-card {
+  min-height: 280px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--bdl-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bdl-blue);
+  margin-bottom: 0.9rem;
+  flex-wrap: wrap;
+
+  bdl-icon {
+    color: var(--bdl-blue-strong);
+  }
+
+  .counters {
+    margin-left: auto;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+}
+
+.metric-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--bdl-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--bdl-border);
+  background: var(--bdl-surface-muted);
+  color: var(--bdl-text-muted);
+
+  &.ok {
+    color: var(--bdl-ok);
+    border-color: rgba(46, 125, 50, 0.4);
+    background: rgba(46, 125, 50, 0.08);
+  }
+  &.danger {
+    color: var(--bdl-danger);
+    border-color: rgba(176, 0, 32, 0.4);
+    background: rgba(176, 0, 32, 0.08);
+  }
+  &.warn {
+    color: #7a5b00;
+    border-color: var(--bdl-warn-border);
+    background: var(--bdl-warn-bg);
+  }
+  &.info {
+    color: var(--bdl-blue-strong);
+    border-color: rgba(11, 79, 108, 0.4);
+    background: rgba(11, 79, 108, 0.08);
+    font-family: var(--bdl-mono);
+  }
+}
+
+// ---- blocked banner -------------------------------------------------------
+.blocked-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 4px;
+  background: rgba(176, 0, 32, 0.07);
+  border: 1px solid rgba(176, 0, 32, 0.35);
+  border-left: 4px solid var(--bdl-danger);
+  color: var(--bdl-danger);
+
+  bdl-icon {
+    flex: 0 0 auto;
+    margin-top: 1px;
+  }
+
+  strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+  span {
+    display: block;
+    color: var(--bdl-text-muted);
+    font-size: 0.83rem;
+    margin-top: 0.15rem;
+    word-break: break-word;
+  }
+}
+
+// ---- empty ----------------------------------------------------------------
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.25rem 1rem;
+  color: var(--bdl-text-muted);
+  border-radius: 4px;
+  background: var(--bdl-surface-muted);
+  border: 1px dashed var(--bdl-border);
+
+  bdl-icon {
+    color: var(--bdl-blue-strong);
+    opacity: 0.7;
+  }
+
+  strong {
+    color: var(--bdl-text);
+    font-weight: 600;
+  }
+  p {
+    margin: 0.2rem 0 0;
+    font-size: 0.86rem;
+  }
+  em {
+    color: var(--bdl-blue-strong);
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+
+// ---- tabs -----------------------------------------------------------------
+.tab-text {
+  margin-left: 0.35rem;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.pane {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--bdl-surface-muted);
+  border: 1px solid var(--bdl-border-soft);
+  border-radius: 4px;
+  font-family: var(--bdl-mono);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 540px;
+  overflow: auto;
+  color: var(--bdl-text);
+
+  &.muted-pane {
+    color: var(--bdl-text-muted);
+    font-style: italic;
+  }
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid var(--bdl-border-soft) !important;
+  margin-bottom: 1rem;
+}

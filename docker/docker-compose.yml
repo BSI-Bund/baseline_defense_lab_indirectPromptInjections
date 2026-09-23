@@ -1,0 +1,158 @@
+# SPDX-FileCopyrightText: 2026 Bundesamt für Sicherheit in der Informationstechnik (BSI)
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Baseline-Defense-Lab - local TEACHING stack.
+#
+# This is a teaching / testing lab, not a production deployment. Every
+# service below is published on the loopback interface (127.0.0.1) ONLY and
+# there is NO authentication anywhere in the stack - neither the Ollama API,
+# nor the FastAPI backend, nor the nginx frontend. Do NOT expose any of these
+# ports on 0.0.0.0 or behind a public ingress: the Ollama API is an
+# unauthenticated model-pull/inference endpoint and the backend will parse
+# attacker-supplied PDFs. Run it on your own machine, for learning.
+#
+# Four services:
+#
+#   ollama       - Ollama runtime; serves the chat model on port 11434.
+#   ollama-init  - One-shot init container that idempotently pulls the chat
+#                  model(s) into the Ollama volume, then exits. Subsequent
+#                  ``up`` runs see the model already cached and exit fast.
+#   backend      - FastAPI + bundled Angular SPA.
+#                  Waits for the model pull to finish before starting.
+#   frontend     - Standalone nginx serving the Angular SPA and reverse-
+#                  proxying ``/api/*`` to ``backend:8000``.
+#
+# Usage (one command brings up the whole lab):
+#
+#   docker compose -f docker/docker-compose.yml up -d --build
+#   open http://127.0.0.1:4201    # standalone frontend
+#   open http://127.0.0.1:8002    # backend-served SPA (single port)
+#
+# Switch the auto-pulled model by setting OLLAMA_MODEL in the host
+# environment before ``up``, e.g.:
+#
+#   OLLAMA_MODEL=qwen3:30b docker compose -f docker/docker-compose.yml up -d --build
+#
+# Or pull several models at once with a space/comma-separated OLLAMA_MODELS:
+#
+#   OLLAMA_MODELS="gemma3:12b qwen3:30b qwen3:14b" docker compose ... up -d --build
+#
+# The ``ollama_data`` named volume keeps the pulled model across
+# ``docker compose down`` (use ``down -v`` to force a fresh pull).
+#
+# A fixed project name (bdl-lab) and distinct loopback ports let this fully
+# self-contained stack - including its OWN Ollama instance and volume - run
+# ALONGSIDE another compose stack (e.g. a separate flag-based lab) without any
+# port or project collision. Default ports: frontend 4201, backend 8002,
+# Ollama 11436.
+name: bdl-lab
+
+services:
+  ollama:
+    # Pinned for reproducibility + supply-chain hygiene (never :latest).
+    image: ollama/ollama:0.24.0
+    container_name: bdl-ollama
+    restart: unless-stopped
+    # Loopback-bound: the Ollama API is unauthenticated - publishing it on
+    # 0.0.0.0 hands every LAN client a free LLM and model-pull endpoint. Host
+    # port 11436 (not 11434/11435) so a host-side Ollama install or another
+    # compose stack cannot collide; the backend talks to Ollama over the
+    # compose network (ollama:11434) anyway - this publish exists only for
+    # manual debugging.
+    ports:
+      - "127.0.0.1:11436:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    # GPU passthrough (OPTIONAL). Requires Docker Desktop with WSL2 + the
+    # NVIDIA Container Toolkit (or a native Linux host with the toolkit).
+    # Without it, Ollama falls back to CPU inference, which makes gemma3:12b
+    # ~10-20x slower (a single chat turn ~120-180 s instead of ~5-10 s). The
+    # manual-testing UI stays usable on CPU, but a GPU host is strongly
+    # recommended for acceptable latency. Comment this whole ``deploy`` block
+    # out if your host does not expose GPUs through Docker.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: ["gpu"]
+
+  ollama-init:
+    image: ollama/ollama:0.24.0
+    container_name: bdl-ollama-init
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      # Single default model …
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gemma3:12b}
+      # … or a space/comma-separated list to pull several. When OLLAMA_MODELS
+      # is set it takes precedence over OLLAMA_MODEL.
+      OLLAMA_MODELS: ${OLLAMA_MODELS:-}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        # Build the model list: OLLAMA_MODELS (space/comma separated) wins,
+        # else fall back to the single OLLAMA_MODEL. Commas -> spaces so the
+        # word-split loop handles both separators.
+        models="$${OLLAMA_MODELS:-$${OLLAMA_MODEL}}"
+        models="$$(printf '%s' "$${models}" | tr ',' ' ')"
+        for model in $${models}; do
+          [ -n "$${model}" ] || continue
+          if ollama list 2>/dev/null | awk '{print $$1}' | grep -Fxq "$${model}"; then
+            echo "[ollama-init] $${model} already present, skipping pull"
+          else
+            echo "[ollama-init] pulling $${model} ..."
+            ollama pull "$${model}"
+            echo "[ollama-init] $${model} pull complete"
+          fi
+        done
+        echo "[ollama-init] done"
+    restart: "no"
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/backend.Dockerfile
+    container_name: bdl-backend
+    restart: unless-stopped
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      # Comma-separated CORS allowlist. Defaults inside the app to the two
+      # local serving ports; override here for other loopback setups. Never a
+      # wildcard on an unauthenticated API.
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:4201,http://127.0.0.1:4201,http://localhost:8002,http://127.0.0.1:8002}
+    depends_on:
+      ollama:
+        condition: service_healthy
+      ollama-init:
+        condition: service_completed_successfully
+    # Loopback-bound (teaching stack, no auth). For a deliberate LAN demo,
+    # change to "8002:8000" - and know exactly what you are exposing.
+    ports:
+      - "127.0.0.1:8002:8000"
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/frontend.Dockerfile
+    container_name: bdl-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    # Loopback-bound, no auth - see the header comment.
+    ports:
+      - "127.0.0.1:4201:80"
+
+volumes:
+  ollama_data:
