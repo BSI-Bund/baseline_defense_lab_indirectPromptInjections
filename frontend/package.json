@@ -6,7 +6,7 @@
   "author": "Bundesamt für Sicherheit in der Informationstechnik (BSI)",
   "repository": {
     "type": "git",
-    "url": "<Projekt-URL>"
+    "url": "https://github.com/BSI-Bund/baseline_defense_lab_indirectPromptInjections"
   },
   "private": true,
   "scripts": {

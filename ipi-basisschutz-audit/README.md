@@ -56,7 +56,7 @@ Das geprüfte Projekt gilt als **nicht vertrauenswürdiger Input** - auch lokal:
 
 ## Quelle
 
-BSI, *„Basisschutz gegen Indirect Prompt Injections in dokumentbasierten LLM-Chats"*, `<Ausgabe/Datum>`, `<Dokumentnummer oder URL>` (mit den dort zitierten Grundlagen, u. a. Greshake et al. 2023, OWASP LLM01, BIPIA- und InjecAgent-Benchmark).
+BSI, *„Basisschutz gegen Indirect Prompt Injections in dokumentbasierten LLM-Chats"*, `25.09.2026`, <https://bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Basisschutz_Indirect-Prompt-Injections_LLM.pdf> (mit den dort zitierten Grundlagen, u. a. Greshake et al. 2023, OWASP LLM01, BIPIA- und InjecAgent-Benchmark).
 
 > **Hinweis:** Die vollständigen bibliografischen Angaben zur BSI-Publikation werden nachgetragen. Bis dahin ist die Quelle nur über den Titel auffindbar.
 

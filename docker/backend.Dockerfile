@@ -37,7 +37,7 @@ FROM python:3.12-slim AS runtime
 # that indication with the image itself, so a recipient who only has the image
 # can still find the Source Code.
 LABEL org.opencontainers.image.title="Baseline-Defense-Lab (backend + bundled SPA)" \
-      org.opencontainers.image.source="<Projekt-URL>" \
+      org.opencontainers.image.source="https://github.com/BSI-Bund/baseline_defense_lab_indirectPromptInjections" \
       org.opencontainers.image.licenses="EUPL-1.2" \
       org.opencontainers.image.vendor="Bundesamt für Sicherheit in der Informationstechnik (BSI)"
 

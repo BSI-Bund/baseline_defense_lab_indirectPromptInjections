@@ -171,9 +171,13 @@ The `tools` object accepts the five keys (`trust_separation`, `input_sanitizer`,
 - **`POST /api/chat_langchain` returns 501.** The `[langchain]` optional dependency is not installed; install it with `pip install -e "backend[langchain]"`.
 - **Reasoning shows `reasoning_active: false`.** The selected model does not support a reasoning/think channel (e.g. `gemma3`). The lab falls back to a normal call rather than pretending the defense was active.
 
+## Quelle
+
+BSI, *„Basisschutz gegen Indirect Prompt Injections in dokumentbasierten LLM-Chats"*, `25.09.2026`, <https://bsi.bund.de/SharedDocs/Downloads/DE/BSI/KI/Basisschutz_Indirect-Prompt-Injections_LLM.pdf> (mit den dort zitierten Grundlagen, u. a. Greshake et al. 2023, OWASP LLM01, BIPIA- und InjecAgent-Benchmark).
+
 ## Models
 
-The default model is `gemma3:12b`; the additional tags exercised during development are `qwen3:14b` and `qwen3:30b`. Override the pulled/offered model with `OLLAMA_MODEL` / `OLLAMA_MODELS`.
+The default model is `gemma3:12b`; the additional tags exercised during development are `qwen3:14b` and `qwen3:30b`. Override the pulled/offered model with `OLLAMA_MODEL` / `OLLAMA_MODELS`
 
 Not every reasoning-capable model exposes Ollama's think channel. `gemma3` rejects `think=true` with HTTP 400, and so do several models that *do* reason internally (measured: `cogito`, `granite3.3`, `exaone-deep`, `phi4-reasoning`, `qwq`). Tool 4 (reasoning) then falls back to a normal call and reports `reasoning_active=false` — the run simply proceeds **without** reasoning and says so, rather than pretending the tool was active. Check the flag before assuming tool 4 did anything.
 
@@ -246,5 +250,5 @@ Security and license problems are the exception. Please report them through the 
 - **Rights holder and licensor.** Bundesamt für Sicherheit in der Informationstechnik (BSI) — German Federal Office for Information Security, Godesberger Allee 87, 53175 Bonn, Germany. The licensor's seat within the meaning of Articles 14 and 15 EUPL-1.2 is Germany.
 
 - **Responsible unit.** Referat T25, Bundesamt für Sicherheit in der Informationstechnik. Security reports go through the channel named in [`SECURITY.md`](SECURITY.md) — please do not use public issues.
-- **Project source.** `<Projekt-URL>`
+- **Project source.** <https://github.com/BSI-Bund/baseline_defense_lab_indirectPromptInjections>
 - **Acknowledgements.** Built on [FastAPI](https://fastapi.tiangolo.com), [Angular](https://angular.dev), [LangChain](https://www.langchain.com), and [Ollama](https://ollama.com).

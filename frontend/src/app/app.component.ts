@@ -89,7 +89,6 @@ import { HealthPillComponent } from './components/health-pill.component';
  * 30 seconds.
  */
 export class AppComponent implements OnInit, OnDestroy {
-  /** Placeholder disclaimer text; edit ``./disclaimer.ts`` to change it. */
   protected readonly disclaimer = DISCLAIMER;
 
   private readonly state = inject(StateService);

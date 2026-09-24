@@ -34,7 +34,7 @@ FROM nginx:1.27-alpine AS runtime
 # and Art. 5 require the Source Code to be provided or a repository indicated;
 # the OCI source label does that for a recipient who only has the image.
 LABEL org.opencontainers.image.title="Baseline-Defense-Lab (frontend)" \
-      org.opencontainers.image.source="<Projekt-URL>" \
+      org.opencontainers.image.source="https://github.com/BSI-Bund/baseline_defense_lab_indirectPromptInjections" \
       org.opencontainers.image.licenses="EUPL-1.2" \
       org.opencontainers.image.vendor="Bundesamt für Sicherheit in der Informationstechnik (BSI)"
 
